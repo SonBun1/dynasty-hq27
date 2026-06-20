@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dynasty HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#111318;--bg2:#181C23;--bg3:#1E2330;--bg4:#252B3A;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
+  --gold:#F5A623;--gold-dim:#C8851C;--gold-bg:rgba(245,166,35,.12);
+  --green:#27AE60;--green-bg:rgba(39,174,96,.15);
+  --red:#E74C3C;--red-bg:rgba(231,76,60,.15);
+  --blue:#3498DB;--blue-bg:rgba(52,152,219,.15);
+  --text:#E8ECF2;--text2:#8B95A8;--text3:#5A6275;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;display:flex;flex-direction:column;height:100%;overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;height:52px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:50}
+.topbar-logo{display:flex;align-items:center;gap:8px;flex:1}
+.logo-mark{width:32px;height:32px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:#111;flex-shrink:0}
+.logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;letter-spacing:.06em;color:#fff;line-height:1}
+.logo-text span{color:var(--gold)}
+.logo-sub{font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;line-height:1;margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.topbar-pill{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.topbar-pill-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--gold);line-height:1}
+.topbar-pill-lbl{font-size:9px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.season-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:0 10px;height:34px;display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap}
+.season-btn select{background:transparent;border:none;color:var(--gold);font-weight:700;font-size:13px;cursor:pointer;outline:none;font-family:'Inter',sans-serif}
+.season-btn select option{background:var(--bg2);color:var(--text)}
+
+/* ── TEAM BANNER ── */
+.team-banner{background:linear-gradient(135deg,#1a0a0a 0%,#2d1010 40%,#1a1a2e 100%);border-bottom:2px solid var(--gold);padding:10px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.team-initial{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#111;flex-shrink:0}
+.team-info{flex:1;min-width:0}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;letter-spacing:.04em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.team-coach{font-size:11px;color:var(--text3);margin-top:1px}
+.team-ratings{display:flex;gap:6px}
+.rating-box{background:rgba(0,0,0,.3);border:1px solid var(--border2);border-radius:4px;padding:3px 7px;text-align:center}
+.rating-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;line-height:1}
+.rating-val.ovr{color:var(--gold)}.rating-val.off{color:#E74C3C}.rating-val.def{color:#3498DB}
+.rating-lbl{font-size:9px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+
+/* ── NAV TABS ── */
+.navtabs{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.navtabs::-webkit-scrollbar{display:none}
+.navtab{flex:1;min-width:56px;padding:0 2px;height:44px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;border-bottom:2px solid transparent;cursor:pointer;user-select:none;transition:all .15s;white-space:nowrap}
+.navtab-icon{font-size:13px;line-height:1}
+.navtab-lbl{font-size:8.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);transition:color .15s}
+.navtab.active{border-bottom-color:var(--gold)}
+.navtab.active .navtab-lbl{color:var(--gold)}
+.navtab:hover:not(.active) .navtab-lbl{color:var(--text2)}
+
+/* ── SCAN BAR ── */
+.scan-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .15s;flex-shrink:0}
+.scan-bar:hover{background:var(--bg4)}
+.scan-bar input{display:none}
+.scan-icon{width:32px;height:32px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.scan-text{flex:1}
+.scan-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#fff}
+.scan-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.scan-arrow{color:var(--text3);font-size:16px}
+
+/* ── SCROLL AREA ── */
+.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.scroll-area::-webkit-scrollbar{width:4px}
+.scroll-area::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+.page{display:none;padding:0 0 90px}
+.page.active{display:block}
+
+/* ── SECTION HEADS ── */
+.section-head{display:flex;align-items:center;gap:8px;padding:14px 14px 8px}
+.section-bar{width:3px;height:18px;background:var(--gold);border-radius:2px;flex-shrink:0}
+.section-label{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#fff;flex:1}
+.section-count{font-size:11px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:2px 7px;border-radius:10px}
+.section-link{font-size:11px;color:var(--gold);font-weight:600;cursor:pointer;padding:2px 4px;background:none;border:none}
+
+/* ── COACH'S OFFICE ── */
+.coaches-office{position:relative;width:100%;height:190px;overflow:hidden;background:#050810;flex-shrink:0}
+.coliseum-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.coliseum-wrap svg{width:100%;height:100%}
+.office-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.05) 0%,rgba(0,0,0,.45) 60%,rgba(17,19,24,1) 100%)}
+.office-caption{position:absolute;bottom:14px;left:16px;right:16px;display:flex;align-items:flex-end;justify-content:space-between}
+.office-welcome{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:21px;color:#fff;line-height:1.1;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+.office-welcome span{color:var(--gold)}
+.office-week-tag{background:var(--gold);color:#111;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;padding:4px 10px;border-radius:4px;white-space:nowrap}
+
+/* ── DASHBOARD ── */
+.dash-grid{padding:10px 12px 0;display:flex;flex-direction:column;gap:10px}
+.dash-record-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.record-big{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:48px;color:#fff;line-height:1;flex:1}
+.record-big span{color:var(--text3)}
+.record-meta{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.record-tag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;padding:3px 8px;border-radius:4px}
+.dash-two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mini-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.mini-card-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.mini-stat-big{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;color:var(--gold);line-height:1}
+.mini-stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.dash-snapshot-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.snapshot-head{padding:10px 14px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.snapshot-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;color:#fff;display:flex;align-items:center;gap:6px}
+.snapshot-title::before{content:'';display:block;width:3px;height:13px;background:var(--gold);border-radius:2px}
+.snapshot-content{padding:10px 14px}
+.dash-target-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.dash-target-row:last-child{border-bottom:none}
+.star-row{display:flex;gap:1px}
+.star-filled{color:var(--gold);font-size:11px}
+.star-empty{color:var(--bg4);font-size:11px}
+.target-info{flex:1;min-width:0}
+.target-name{font-size:13px;font-weight:600;color:#fff}
+.target-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.target-status{font-size:11px;font-weight:700}
+.status-committed{color:var(--green)}.status-targeting{color:var(--gold)}.status-lost{color:var(--red)}
+.dc-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
+.dc-row:last-child{border-bottom:none}
+.dc-num{font-size:11px;color:var(--text3);width:14px;text-align:center}
+.dc-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--text2);flex-shrink:0}
+.dc-info{flex:1;min-width:0}
+.dc-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dc-sub{font-size:10px;color:var(--text3)}
+
+/* ── RECRUITS ── */
+.recruit-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:0 12px 8px;overflow:hidden;position:relative}
+.recruit-card-inner{padding:12px 12px 12px 16px}
+.recruit-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.rc-committed::before{background:var(--green)}.rc-targeting::before{background:var(--gold)}.rc-lost::before{background:var(--red)}
+.rc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.rc-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.1}
+.rc-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pos-tag{background:var(--bg4);border:1px solid var(--border2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;padding:1px 6px;border-radius:3px;color:var(--gold);letter-spacing:.05em}
+.ovr-tag{background:var(--bg4);border:1px solid var(--border2);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;padding:1px 6px;border-radius:3px;color:#fff}
+.status-pill{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.06em;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.sp-committed{background:var(--green-bg);color:var(--green);border:1px solid rgba(39,174,96,.3)}
+.sp-targeting{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(245,166,35,.3)}
+.sp-lost{background:var(--red-bg);color:var(--red);border:1px solid rgba(231,76,60,.3)}
+.rc-details{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.rc-detail{display:flex;gap:4px;font-size:11px}
+.rc-dl{color:var(--text3)}.rc-dv{color:var(--text2);font-weight:500}
+.rc-notes{grid-column:1/-1}
+.del-btn{background:none;border:none;color:var(--text3);font-size:14px;cursor:pointer;padding:4px;line-height:1;border-radius:4px;transition:color .15s}
+.del-btn:hover{color:var(--red)}
+
+/* ── ROSTER ── */
+.player-row{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:0 12px 7px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.p-avatar{width:36px;height:36px;border-radius:8px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:var(--text2);flex-shrink:0;position:relative}
+.p-num{position:absolute;bottom:-4px;right:-4px;background:var(--bg3);border:1px solid var(--border2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;color:var(--text3);border-radius:3px;padding:0 2px;line-height:14px}
+.p-info{flex:1;min-width:0}
+.p-name{font-size:14px;font-weight:600;color:#fff}
+.p-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.p-attrs{display:flex;gap:8px;align-items:center}
+.attr{text-align:center}
+.attr-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;line-height:1}
+.attr-val.hi{color:#2ECC71}.attr-val.md{color:var(--gold)}.attr-val.lo{color:var(--red)}
+.attr-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
+
+/* ── TRANSFERS ── */
+.transfer-row{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:0 12px 7px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.transfer-dir{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.dir-in{background:var(--green-bg)}.dir-out{background:var(--red-bg)}
+.t-info{flex:1;min-width:0}
+.t-name{font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;gap:6px}
+.t-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ── STATS ── */
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:0 12px 8px;padding:12px}
+.stat-card-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.stat-card-name{font-size:14px;font-weight:700;color:#fff;flex:1}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.stat-cell{text-align:center;background:var(--bg3);border-radius:6px;padding:7px 4px}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:var(--gold);line-height:1}
+.stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+
+/* ── SCHEDULE ── */
+.sched-record-banner{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:10px 12px 0;padding:12px 16px;display:flex;align-items:center;gap:16px}
+.sched-rec-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:#fff;line-height:1}
+.sched-rec-num span{color:var(--text3)}
+.sched-rec-meta{flex:1}
+.sched-rec-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.sched-rec-streak{font-size:13px;font-weight:600;color:var(--text2)}
+.game-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:0 12px 8px;padding:12px 14px;position:relative;overflow:hidden}
+.game-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.game-card.win::before{background:var(--green)}.game-card.loss::before{background:var(--red)}.game-card.upcoming::before{background:var(--bg4)}
+.game-top{display:flex;align-items:center;gap:10px}
+.game-week{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);width:18px;flex-shrink:0;text-align:center}
+.game-loc-tag{font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 5px;border-radius:3px;text-transform:uppercase;flex-shrink:0}
+.loc-home{background:var(--blue-bg);color:var(--blue)}.loc-away{background:var(--bg4);color:var(--text3)}.loc-neutral{background:var(--gold-bg);color:var(--gold)}
+.game-opp{flex:1;min-width:0}
+.game-opp-name{font-size:14px;font-weight:700;color:#fff}
+.game-opp-rank{color:var(--gold);font-size:12px;margin-right:2px}
+.game-opp-conf{font-size:11px;color:var(--text3);margin-top:1px}
+.game-right{text-align:right;flex-shrink:0}
+.game-score-line{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;line-height:1}
+.game-score-line.win{color:var(--green)}.game-score-line.loss{color:var(--red)}.game-score-line.upcoming{color:var(--text3);font-size:14px}
+.game-result-pill{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.06em;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.grp-win{background:var(--green-bg);color:var(--green)}.grp-loss{background:var(--red-bg);color:var(--red)}
+.game-notes-bar{font-size:11px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+
+/* ── NEWSROOM ── */
+.news-featured{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:10px 12px 8px;overflow:hidden}
+.news-feat-banner{background:var(--gold);padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;letter-spacing:.1em;color:#111}
+.news-feat-body{padding:14px}
+.news-headline{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#fff;line-height:1.15;margin-bottom:6px}
+.news-byline{font-size:11px;color:var(--text3);margin-bottom:9px}
+.news-body-text{font-size:13px;color:var(--text2);line-height:1.55}
+.news-stat-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.news-stat-tag{background:var(--bg4);border:1px solid var(--border2);font-size:11px;font-weight:600;color:var(--text2);padding:3px 8px;border-radius:4px}
+.news-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:0 12px 7px;padding:11px 13px;position:relative}
+.news-item-type{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.nit-game{color:var(--blue)}.nit-recruit{color:var(--gold)}.nit-transfer{color:var(--green)}.nit-program{color:var(--text3)}
+.news-item-title{font-size:14px;font-weight:600;color:#fff;line-height:1.3;padding-right:24px}
+.news-item-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.news-item-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:2px 4px}
+.news-item-del:hover{color:var(--red)}
+
+/* ── SETTINGS ── */
+.settings-section{padding:14px 14px 0}
+.settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.settings-row{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.settings-row:last-child{border-bottom:none}
+.settings-row-info{flex:1}
+.settings-row-label{font-size:14px;font-weight:600;color:#fff}
+.settings-row-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.settings-action{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;cursor:pointer;white-space:nowrap}
+.settings-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:14px 14px 6px}
+
+/* ── EMPTY ── */
+.empty-state{text-align:center;padding:48px 24px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:var(--text2);margin-bottom:6px}
+.empty-sub{font-size:12px;line-height:1.5}
+
+/* ── MODALS ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg2);border-radius:20px 20px 0 0;border-top:2px solid var(--gold);width:100%;max-width:600px;max-height:88vh;overflow-y:auto;padding:16px 16px 32px}
+.sheet-handle{width:36px;height:4px;background:var(--bg4);border-radius:2px;margin:0 auto 14px}
+.sheet-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#fff;margin-bottom:4px}
+.sheet-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
+.img-preview{width:100%;border-radius:8px;border:1px solid var(--border);max-height:220px;object-fit:cover;margin-bottom:12px}
+.spinner-wrap{text-align:center;padding:28px;color:var(--text3)}
+.spinner{width:32px;height:32px;border:3px solid var(--bg4);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan-json{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--text2);white-space:pre-wrap;max-height:180px;overflow-y:auto;margin-bottom:12px;font-family:monospace}
+.form-row{margin-bottom:10px}
+.form-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.form-input,.form-sel{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);padding:9px 12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.form-input:focus,.form-sel:focus{border-color:var(--gold)}
+.form-sel option{background:var(--bg2)}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn{flex:1;padding:12px;border-radius:8px;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:.04em;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-gold{background:var(--gold);color:#111}
+.btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.err-text{color:var(--red);font-size:12px;text-align:center;padding:16px}
+
+/* ── FAB ── */
+.fab{position:fixed;bottom:18px;right:16px;width:50px;height:50px;border-radius:50%;background:var(--gold);border:none;color:#111;font-size:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(245,166,35,.4);z-index:50;transition:transform .15s}
+.fab:hover{transform:scale(1.08)}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark">D</div>
+    <div>
+      <div class="logo-text">DYNASTY <span>HQ</span></div>
+      <div class="logo-sub" id="teamNameSmall">Your Dynasty</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-pill">
+      <div class="topbar-pill-val" id="topRecord">0-0</div>
+      <div class="topbar-pill-lbl">Record</div>
+    </div>
+    <div class="season-btn">SZN
+      <select id="seasonSel" onchange="changeSeason(this.value)">
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026" selected>2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM BANNER -->
+<div class="team-banner">
+  <div class="team-initial" id="teamInitial">?</div>
+  <div class="team-info">
+    <div class="team-name" id="teamNameBig">Set Your Team</div>
+    <div class="team-coach" id="teamCoachLine">Head Coach · Dynasty Mode</div>
+  </div>
+  <div class="team-ratings" id="teamRatings">
+    <div class="rating-box"><div class="rating-val ovr">—</div><div class="rating-lbl">OVR</div></div>
+    <div class="rating-box"><div class="rating-val off">—</div><div class="rating-lbl">OFF</div></div>
+    <div class="rating-box"><div class="rating-val def">—</div><div class="rating-lbl">DEF</div></div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="navtabs">
+  <div class="navtab active" onclick="switchPage('dash',this)"><div class="navtab-icon">🏠</div><div class="navtab-lbl">Home</div></div>
+  <div class="navtab" onclick="switchPage('schedule',this)"><div class="navtab-icon">📅</div><div class="navtab-lbl">Schedule</div></div>
+  <div class="navtab" onclick="switchPage('recruits',this)"><div class="navtab-icon">🎯</div><div class="navtab-lbl">Recruits</div></div>
+  <div class="navtab" onclick="switchPage('roster',this)"><div class="navtab-icon">🏈</div><div class="navtab-lbl">Roster</div></div>
+  <div class="navtab" onclick="switchPage('transfers',this)"><div class="navtab-icon">↔️</div><div class="navtab-lbl">Transfers</div></div>
+  <div class="navtab" onclick="switchPage('stats',this)"><div class="navtab-icon">📊</div><div class="navtab-lbl">Stats</div></div>
+  <div class="navtab" onclick="switchPage('newsroom',this)"><div class="navtab-icon">📰</div><div class="navtab-lbl">Newsroom</div></div>
+  <div class="navtab" onclick="switchPage('settings',this)"><div class="navtab-icon">⚙️</div><div class="navtab-lbl">Settings</div></div>
+</div>
+
+<!-- SCAN BAR -->
+<label class="scan-bar" for="photoInput">
+  <div class="scan-icon">📷</div>
+  <div class="scan-text">
+    <div class="scan-title">SCAN GAME SCREEN</div>
+    <div class="scan-sub">Snap or upload a screenshot — AI extracts the data</div>
+  </div>
+  <div class="scan-arrow">›</div>
+  <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handleScan(event)">
+</label>
+
+<!-- SCROLL AREA -->
+<div class="scroll-area">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dash">
+    <!-- Coliseum Coach's Office -->
+    <div class="coaches-office">
+      <div class="coliseum-wrap">
+        <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <!-- Night sky -->
+          <rect width="800" height="380" fill="#05080f"/>
+          <!-- Stars -->
+          <g fill="white" opacity="0.5">
+            <circle cx="50" cy="20" r="0.8"/><circle cx="120" cy="10" r="0.6"/><circle cx="200" cy="30" r="1"/><circle cx="310" cy="8" r="0.7"/><circle cx="400" cy="18" r="0.9"/><circle cx="490" cy="5" r="0.6"/><circle cx="580" cy="22" r="0.8"/><circle cx="660" cy="12" r="1"/><circle cx="740" cy="28" r="0.7"/><circle cx="80" cy="45" r="0.6"/><circle cx="160" cy="55" r="0.8"/><circle cx="260" cy="40" r="0.7"/><circle cx="350" cy="50" r="0.9"/><circle cx="440" cy="35" r="0.6"/><circle cx="530" cy="48" r="0.8"/><circle cx="620" cy="38" r="0.7"/><circle cx="700" cy="52" r="0.9"/><circle cx="770" cy="42" r="0.6"/><circle cx="30" cy="70" r="0.7"/><circle cx="700" cy="75" r="0.8"/>
+          </g>
+          <!-- Moon glow -->
+          <radialGradient id="moonG" cx="75%" cy="15%" r="15%">
+            <stop offset="0%" stop-color="#fffbe0" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#05080f" stop-opacity="0"/>
+          </radialGradient>
+          <rect width="800" height="380" fill="url(#moonG)"/>
+          <!-- Outer stadium wall / oval -->
+          <ellipse cx="400" cy="260" rx="370" ry="165" fill="none" stroke="#8B7355" stroke-width="18" opacity="0.6"/>
+          <ellipse cx="400" cy="260" rx="370" ry="165" fill="none" stroke="#C4A96B" stroke-width="3" opacity="0.4"/>
+          <!-- Coliseum peristyle colonnade (top arch) -->
+          <path d="M90,155 Q400,60 710,155" fill="none" stroke="#BFA060" stroke-width="4" opacity="0.7"/>
+          <!-- Columns across the peristyle end -->
+          <g fill="#C4A96B" opacity="0.75">
+            <!-- Base architrave -->
+            <rect x="88" y="148" width="624" height="10" rx="2"/>
+            <!-- Column tops (capitals) -->
+            <g>
+              <!-- 18 columns evenly spaced -->
+              <rect x="100" y="112" width="10" height="40"/><rect x="100" y="108" width="18" height="6" x="96"/>
+              <rect x="136" y="108" width="10" height="44"/><rect x="132" y="104" width="18" height="6"/>
+              <rect x="172" y="104" width="10" height="48"/><rect x="168" y="100" width="18" height="6"/>
+              <rect x="208" y="100" width="10" height="52"/><rect x="204" y="96" width="18" height="6"/>
+              <rect x="244" y="97" width="10" height="55"/><rect x="240" y="93" width="18" height="6"/>
+              <rect x="280" y="94" width="10" height="58"/><rect x="276" y="90" width="18" height="6"/>
+              <rect x="316" y="92" width="10" height="60"/><rect x="312" y="88" width="18" height="6"/>
+              <rect x="352" y="91" width="10" height="61"/><rect x="348" y="87" width="18" height="6"/>
+              <rect x="388" y="91" width="10" height="61"/><rect x="384" y="87" width="18" height="6"/>
+              <rect x="424" y="92" width="10" height="60"/><rect x="420" y="88" width="18" height="6"/>
+              <rect x="460" y="94" width="10" height="58"/><rect x="456" y="90" width="18" height="6"/>
+              <rect x="496" y="97" width="10" height="55"/><rect x="492" y="93" width="18" height="6"/>
+              <rect x="532" y="100" width="10" height="52"/><rect x="528" y="96" width="18" height="6"/>
+              <rect x="568" y="104" width="10" height="48"/><rect x="564" y="100" width="18" height="6"/>
+              <rect x="604" y="108" width="10" height="44"/><rect x="600" y="104" width="18" height="6"/>
+              <rect x="640" y="112" width="10" height="40"/><rect x="636" y="108" width="18" height="6"/>
+              <rect x="676" y="118" width="10" height="34"/><rect x="672" y="114" width="18" height="6"/>
+            </g>
+          </g>
+          <!-- Seating bowl - upper deck -->
+          <ellipse cx="400" cy="268" rx="340" ry="148" fill="#0d1520" stroke="#1e2d42" stroke-width="2"/>
+          <!-- Seating tiers -->
+          <ellipse cx="400" cy="270" rx="330" ry="142" fill="none" stroke="#182030" stroke-width="8"/>
+          <ellipse cx="400" cy="272" rx="310" ry="132" fill="none" stroke="#1a2535" stroke-width="6"/>
+          <ellipse cx="400" cy="274" rx="285" ry="118" fill="none" stroke="#1c2840" stroke-width="5"/>
+          <ellipse cx="400" cy="276" rx="258" ry="104" fill="none" stroke="#1e2b44" stroke-width="5"/>
+          <!-- Crowd dots - gives impression of a packed Coliseum -->
+          <g opacity="0.35">
+            <!-- USC cardinal crowd blocks -->
+            <ellipse cx="280" cy="228" rx="60" ry="14" fill="#8B0000"/>
+            <ellipse cx="520" cy="228" rx="60" ry="14" fill="#8B0000"/>
+            <ellipse cx="400" cy="200" rx="80" ry="10" fill="#8B0000"/>
+            <ellipse cx="180" cy="248" rx="40" ry="10" fill="#C41E3A"/>
+            <ellipse cx="620" cy="248" rx="40" ry="10" fill="#C41E3A"/>
+            <!-- Gold sections -->
+            <ellipse cx="340" cy="215" rx="40" ry="9" fill="#C8a032" opacity="0.6"/>
+            <ellipse cx="460" cy="215" rx="40" ry="9" fill="#C8a032" opacity="0.6"/>
+          </g>
+          <!-- Field -->
+          <ellipse cx="400" cy="295" rx="220" ry="90" fill="#1a3a1a"/>
+          <!-- Field stripes -->
+          <ellipse cx="400" cy="295" rx="220" ry="90" fill="none" stroke="#1e4020" stroke-width="12" stroke-dasharray="30 15"/>
+          <!-- Hash marks / yard lines -->
+          <g stroke="#2a5a2a" stroke-width="1.5" opacity="0.7">
+            <line x1="200" y1="295" x2="600" y2="295"/>
+            <line x1="220" y1="280" x2="580" y2="280"/>
+            <line x1="240" y1="266" x2="560" y2="266"/>
+            <line x1="260" y1="254" x2="540" y2="254"/>
+            <line x1="290" y1="308" x2="510" y2="308"/>
+            <line x1="320" y1="318" x2="480" y2="318"/>
+          </g>
+          <!-- End zones -->
+          <ellipse cx="400" cy="295" rx="220" ry="90" fill="none" stroke="#8B0000" stroke-width="3" opacity="0.5"/>
+          <!-- SC logo on field -->
+          <text x="400" y="300" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="28" fill="#8B0000" opacity="0.5">SC</text>
+          <!-- Stadium lights (4 towers) -->
+          <g opacity="0.9">
+            <!-- Left tower -->
+            <rect x="58" y="88" width="6" height="70" fill="#3a3a4a"/>
+            <rect x="44" y="82" width="34" height="8" rx="2" fill="#4a4a5a"/>
+            <!-- Light beams from left -->
+            <radialGradient id="lg1" cx="50%" cy="100%" r="100%">
+              <stop offset="0%" stop-color="#fffbe0" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#fffbe0" stop-opacity="0"/>
+            </radialGradient>
+            <ellipse cx="61" cy="82" rx="55" ry="45" fill="url(#lg1)" opacity="0.4"/>
+            <!-- Right tower -->
+            <rect x="736" y="88" width="6" height="70" fill="#3a3a4a"/>
+            <rect x="722" y="82" width="34" height="8" rx="2" fill="#4a4a5a"/>
+            <radialGradient id="lg2" cx="50%" cy="100%" r="100%">
+              <stop offset="0%" stop-color="#fffbe0" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#fffbe0" stop-opacity="0"/>
+            </radialGradient>
+            <ellipse cx="739" cy="82" rx="55" ry="45" fill="url(#lg2)" opacity="0.4"/>
+          </g>
+          <!-- Olympic rings / Coliseum torches (subtle) -->
+          <g opacity="0.4" fill="#C4A96B">
+            <rect x="388" y="75" width="24" height="4" rx="2"/>
+            <rect x="392" y="65" width="16" height="12" rx="1"/>
+            <rect x="388" y="75" width="24" height="4" rx="2"/>
+          </g>
+          <!-- Scoreboard at top of peristyle -->
+          <rect x="330" y="62" width="140" height="28" rx="4" fill="#0a0a0a" stroke="#C4A96B" stroke-width="1.5" opacity="0.8"/>
+          <text x="400" y="73" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="8" fill="#F5A623" opacity="0.9" letter-spacing="1">LOS ANGELES MEMORIAL</text>
+          <text x="400" y="84" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-weight="800" font-size="10" fill="#fff" opacity="0.9" letter-spacing="2">COLISEUM</text>
+          <!-- Ambient field glow -->
+          <radialGradient id="fieldGlow" cx="50%" cy="70%" r="40%">
+            <stop offset="0%" stop-color="#2a6a2a" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#05080f" stop-opacity="0"/>
+          </radialGradient>
+          <rect width="800" height="380" fill="url(#fieldGlow)"/>
+        </svg>
+      </div>
+      <div class="office-overlay"></div>
+      <div class="office-caption">
+        <div class="office-welcome">WELCOME COACH<br><span id="officeTeamName">— SET YOUR TEAM —</span></div>
+        <div class="office-week-tag" id="officeWeekTag">PRESEASON</div>
+      </div>
+    </div>
+    <div class="dash-grid" id="dashContent"></div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="page" id="page-schedule">
+    <div id="scheduleContent"></div>
+  </div>
+
+  <!-- RECRUITS -->
+  <div class="page" id="page-recruits">
+    <div id="recruitsContent"></div>
+  </div>
+
+  <!-- ROSTER -->
+  <div class="page" id="page-roster">
+    <div id="rosterContent"></div>
+  </div>
+
+  <!-- TRANSFERS -->
+  <div class="page" id="page-transfers">
+    <div id="transfersContent"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="page" id="page-stats">
+    <div id="statsContent"></div>
+  </div>
+
+  <!-- NEWSROOM -->
+  <div class="page" id="page-newsroom">
+    <div id="newsroomContent"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="page" id="page-settings">
+    <div class="settings-section">
+      <div class="settings-lbl">Team Info</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Team Name</div><div class="settings-row-sub" id="stTeam">Not set</div></div>
+          <button class="settings-action" onclick="openEditTeam()">Edit</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Head Coach</div><div class="settings-row-sub" id="stCoach">Not set</div></div>
+          <button class="settings-action" onclick="openEditTeam()">Edit</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Season Record</div><div class="settings-row-sub" id="stRecord">0-0</div></div>
+          <button class="settings-action" onclick="openEditRecord()">Edit</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Team Ratings (OVR / OFF / DEF)</div><div class="settings-row-sub" id="stRatings">Not set</div></div>
+          <button class="settings-action" onclick="openEditRatings()">Edit</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Current Week</div><div class="settings-row-sub" id="stWeek">Preseason</div></div>
+          <button class="settings-action" onclick="openEditWeek()">Edit</button>
+        </div>
+      </div>
+      <div class="settings-lbl">Data</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Clear Season Data</div><div class="settings-row-sub">Remove all entries for current season</div></div>
+          <button class="settings-action" style="color:var(--red)" onclick="clearSeason()">Clear</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Reset All Data</div><div class="settings-row-sub">Wipe everything and start fresh</div></div>
+          <button class="settings-action" style="color:var(--red)" onclick="resetAll()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end scroll area -->
+
+<button class="fab" id="fabBtn" onclick="openAdd()" title="Add">＋</button>
+
+<!-- SCAN MODAL -->
+<div class="overlay" id="scanModal" style="display:none">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">AI SCAN</div>
+    <div class="sheet-sub">Reading your game screen with AI...</div>
+    <img id="scanPreview" class="img-preview" style="display:none">
+    <div id="scanSpinner" class="spinner-wrap"><div class="spinner"></div>Analyzing image...</div>
+    <div id="scanResult" style="display:none">
+      <div class="form-row"><label class="form-lbl">Save to</label>
+        <select class="form-sel" id="scanTarget">
+          <option value="recruits">Recruits</option><option value="roster">Roster</option>
+          <option value="transfers">Transfers</option><option value="stats">Stats</option>
+          <option value="schedule">Schedule</option><option value="newsroom">Newsroom</option>
+        </select>
+      </div>
+      <div class="scan-json" id="scanJson"></div>
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="saveScan()">SAVE DATA</button>
+        <button class="btn btn-ghost" onclick="closeScan()">DISMISS</button>
+      </div>
+    </div>
+    <div id="scanErr" style="display:none">
+      <div class="err-text" id="scanErrText"></div>
+      <button class="btn btn-ghost" onclick="closeScan()">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="overlay" id="addModal" style="display:none">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="addTitle">ADD</div>
+    <div id="addForm"></div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+const STORE = 'dynastyHQ_v3';
+let currentPage = 'dash';
+let currentSeason = '2026';
+let scanParsed = null;
+
+function loadDB() {
+  try { return JSON.parse(localStorage.getItem(STORE)) || initDB(); }
+  catch { return initDB(); }
+}
+function initDB() {
+  const d = {
+    meta: { teamName:'', coach:'', wins:0, losses:0, ovr:0, off:0, def:0, week:0 },
+    seasons: {
+      '2026': {
+        recruits:[
+          {id:1,name:'Marcus Webb',pos:'QB',stars:5,ovr:92,hometown:'Atlanta, GA',interest:88,status:'Committed',notes:'#1 dual-threat nationally'},
+          {id:2,name:"D'Andre Collins",pos:'WR',stars:4,ovr:87,hometown:'Dallas, TX',interest:71,status:'Targeting',notes:'Top target — needs official visit'},
+          {id:3,name:'Khalil Okafor',pos:'DT',stars:4,ovr:85,hometown:'Miami, FL',interest:40,status:'Lost',notes:'Flipped to Ohio State late'},
+        ],
+        roster:[
+          {id:1,num:1,name:'Tyler Reeves',pos:'QB',yr:'JR',spd:82,ovr:84,notes:'Starter'},
+          {id:2,num:22,name:'Deon Harris',pos:'RB',yr:'SO',spd:91,ovr:88,notes:'Team leader'},
+          {id:3,num:80,name:'Javon Williams',pos:'WR',yr:'SR',spd:89,ovr:86,notes:'Captain'},
+          {id:4,num:54,name:'Marcus Bell',pos:'LB',yr:'JR',spd:78,ovr:83,notes:''},
+        ],
+        transfers:[
+          {id:1,name:'Caleb Monroe',pos:'OT',direction:'in',from:'Oregon',to:'',ovr:83,notes:'Grad transfer'},
+          {id:2,name:'Trey Lawson',pos:'CB',direction:'out',from:'',to:'Georgia',ovr:81,notes:'Entered portal'},
+        ],
+        stats:[
+          {id:1,name:'Tyler Reeves',pos:'QB',stat1:2840,label1:'PASS YDS',stat2:24,label2:'TD',stat3:9,label3:'INT',stat4:68.2,label4:'COMP%'},
+          {id:2,name:'Deon Harris',pos:'RB',stat1:1124,label1:'RUSH YDS',stat2:13,label2:'TD',stat3:5.4,label3:'YPC',stat4:87,label4:'REC YDS'},
+          {id:3,name:'Javon Williams',pos:'WR',stat1:934,label1:'REC YDS',stat2:8,label2:'TD',stat3:72,label3:'REC',stat4:13,label4:'AVG'},
+        ],
+        schedule:[
+          {id:1,week:1,opponent:'San Jose State',rank:'',location:'home',result:'win',score:'38-10',conf:false,notes:'Season opener'},
+          {id:2,week:2,opponent:'Utah Utes',rank:'14',location:'away',result:'loss',score:'21-28',conf:true,notes:''},
+          {id:3,week:3,opponent:'Michigan Wolverines',rank:'8',location:'home',result:'upcoming',score:'',conf:false,notes:'Big Ten clash'},
+        ],
+        newsroom:[
+          {id:1,type:'game',headline:'Trojans Dominate San Jose State 38-10 in Opener',body:'Dominant performance on both sides of the ball. Reeves threw for 3 TDs and Harris ran for 140 yards.',stats:['T.Reeves: 3 TD, 280 yds','D.Harris: 140 rush yds'],week:'Week 1',featured:true},
+          {id:2,type:'recruit',headline:"5-Star QB Marcus Webb Commits to the Program",body:'Top-ranked dual-threat QB in the nation pledges his future to the dynasty.',stats:['Webb: 5★ · 92 OVR'],week:'Recruiting',featured:false},
+        ]
+      }
+    }
+  };
+  saveDB(d); return d;
+}
+function saveDB(d) { localStorage.setItem(STORE, JSON.stringify(d)); }
+let DB = loadDB();
+
+function sd(tab) {
+  if (!DB.seasons[currentSeason]) DB.seasons[currentSeason]={recruits:[],roster:[],transfers:[],stats:[],schedule:[],newsroom:[]};
+  if (!DB.seasons[currentSeason][tab]) DB.seasons[currentSeason][tab]=[];
+  return DB.seasons[currentSeason][tab];
+}
+function nextId(tab) { const d=sd(tab); return d.length?Math.max(...d.map(e=>e.id||0))+1:1; }
+
+// ─── NAV ─────────────────────────────────────────────────
+function switchPage(page, el) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.navtab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('fabBtn').style.display = page==='settings'?'none':'flex';
+  render();
+}
+function changeSeason(v) { currentSeason=v; render(); }
+
+// ─── MASTER RENDER ───────────────────────────────────────
+function render() {
+  renderBanner(); renderDash(); renderSchedule();
+  renderRecruits(); renderRoster(); renderTransfers();
+  renderStats(); renderNewsroom(); renderSettingsPanel();
+}
+
+function ovrColor(v) {
+  if (!v||v===0) return '';
+  return v>=90?'hi':v>=80?'md':'lo';
+}
+
+// ─── BANNER ──────────────────────────────────────────────
+function renderBanner() {
+  const m=DB.meta;
+  const name=m.teamName||'Your Dynasty';
+  document.getElementById('teamNameBig').textContent=name.toUpperCase();
+  document.getElementById('teamNameSmall').textContent=name;
+  document.getElementById('teamInitial').textContent=name[0]||'?';
+  document.getElementById('topRecord').textContent=`${m.wins||0}-${m.losses||0}`;
+  document.getElementById('teamCoachLine').textContent=(m.coach?m.coach+' · ':'')+`Dynasty Mode · ${currentSeason}`;
+  document.getElementById('officeTeamName').textContent=name.toUpperCase();
+  document.getElementById('officeWeekTag').textContent=m.week?`WEEK ${m.week}`:'PRESEASON';
+  const rEl=document.getElementById('teamRatings');
+  rEl.innerHTML=`
+    <div class="rating-box"><div class="rating-val ovr">${m.ovr||'—'}</div><div class="rating-lbl">OVR</div></div>
+    <div class="rating-box"><div class="rating-val off">${m.off||'—'}</div><div class="rating-lbl">OFF</div></div>
+    <div class="rating-box"><div class="rating-val def">${m.def||'—'}</div><div class="rating-lbl">DEF</div></div>`;
+}
+
+// ─── DASHBOARD ───────────────────────────────────────────
+function renderDash() {
+  const m=DB.meta;
+  const recruits=sd('recruits');
+  const roster=sd('roster');
+  const schedule=sd('schedule');
+  const committed=recruits.filter(r=>r.status==='Committed');
+  const targeting=recruits.filter(r=>r.status==='Targeting');
+  const wins=schedule.filter(g=>g.result==='win').length;
+  const losses=schedule.filter(g=>g.result==='loss').length;
+  const topRecruits=[...committed,...targeting].sort((a,b)=>b.stars-a.stars||b.ovr-a.ovr).slice(0,4);
+  const topRoster=[...roster].sort((a,b)=>(b.ovr||0)-(a.ovr||0)).slice(0,5);
+  const upcoming=schedule.filter(g=>g.result==='upcoming').slice(0,2);
+  const avgStars=committed.length?(committed.reduce((s,r)=>s+r.stars,0)/committed.length).toFixed(1):'—';
+  const wTotal=m.wins||wins; const lTotal=m.losses||losses;
+  const recordTag=wTotal>lTotal
+    ?`<span class="record-tag" style="background:var(--green-bg);color:var(--green);border:1px solid rgba(39,174,96,.3)">WINNING RECORD</span>`
+    :wTotal===0&&lTotal===0
+    ?`<span class="record-tag" style="background:var(--bg4);color:var(--text3)">PRESEASON</span>`
+    :`<span class="record-tag" style="background:var(--red-bg);color:var(--red);border:1px solid rgba(231,76,60,.3)">LOSING RECORD</span>`;
+
+  let html=`
+    <div class="dash-record-card">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">${currentSeason} Season</div>
+        <div class="record-big">${wTotal}<span>-${lTotal}</span></div>
+      </div>
+      <div class="record-meta">${recordTag}<div style="font-size:11px;color:var(--text3)">${roster.length} on roster</div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="mini-card">
+        <div class="mini-card-label">Commits</div>
+        <div class="mini-stat-big">${committed.length}</div>
+        <div class="mini-stat-sub">${avgStars}★ avg · ${targeting.length} targeting</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-label">Portal</div>
+        <div class="mini-stat-big">${sd('transfers').filter(t=>t.direction==='in').length}</div>
+        <div class="mini-stat-sub">${sd('transfers').filter(t=>t.direction==='out').length} departed</div>
+      </div>
+    </div>`;
+
+  if (upcoming.length) {
+    html+=`<div class="dash-snapshot-card">
+      <div class="snapshot-head"><div class="snapshot-title">Upcoming Games</div><button class="section-link" onclick="document.querySelectorAll('.navtab')[1].click()">Schedule →</button></div>
+      <div class="snapshot-content">
+        ${upcoming.map(g=>`
+          <div class="dash-target-row">
+            <div style="font-size:11px;color:var(--text3);width:40px">WK ${g.week}</div>
+            <div class="target-info">
+              <div class="target-name">${g.rank?`<span style="color:var(--gold)">#${g.rank} </span>`:''}${g.opponent}</div>
+              <div class="target-meta">${g.location==='home'?'HOME':g.location==='away'?'@ AWAY':'NEUTRAL'}${g.notes?' · '+g.notes:''}</div>
+            </div>
+            <span class="status-targeting" style="font-size:11px;font-weight:600">${g.location==='home'?'🏠':'✈️'}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (topRecruits.length) {
+    html+=`<div class="dash-snapshot-card">
+      <div class="snapshot-head"><div class="snapshot-title">Top Recruits</div><button class="section-link" onclick="document.querySelectorAll('.navtab')[2].click()">View All →</button></div>
+      <div class="snapshot-content">
+        ${topRecruits.map(r=>`
+          <div class="dash-target-row">
+            <div class="star-row">${starsHTML(r.stars)}</div>
+            <div class="target-info">
+              <div class="target-name">${r.name}</div>
+              <div class="target-meta">${r.pos} · ${r.hometown||'—'}</div>
+            </div>
+            <div class="target-status ${r.status==='Committed'?'status-committed':r.status==='Lost'?'status-lost':'status-targeting'}">${r.status}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (topRoster.length) {
+    html+=`<div class="dash-snapshot-card">
+      <div class="snapshot-head"><div class="snapshot-title">Top Players</div><button class="section-link" onclick="document.querySelectorAll('.navtab')[3].click()">Full Roster →</button></div>
+      <div class="snapshot-content">
+        ${topRoster.map((p,i)=>`
+          <div class="dc-row">
+            <div class="dc-num">${i+1}</div>
+            <div class="dc-avatar">${(p.name||'?')[0]}</div>
+            <div class="dc-info"><div class="dc-name">${p.name}</div><div class="dc-sub">${p.yr||''} · #${p.num||'—'}</div></div>
+            <div><span style="font-size:10px;color:var(--text3);margin-right:4px">${p.pos}</span><span class="${ovrColor(p.ovr)}" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px">${p.ovr||'—'}</span></div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (!topRecruits.length&&!topRoster.length&&!upcoming.length) {
+    html+=emptyHTML('🏟️','Welcome, Coach','Set your team in Settings, then scan game screenshots or add data manually.');
+  }
+
+  document.getElementById('dashContent').innerHTML=html;
+}
+
+// ─── SCHEDULE ────────────────────────────────────────────
+function renderSchedule() {
+  const data=sd('schedule').sort((a,b)=>(a.week||0)-(b.week||0));
+  const wins=data.filter(g=>g.result==='win').length;
+  const losses=data.filter(g=>g.result==='loss').length;
+
+  let html=`<div class="sched-record-banner">
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">${currentSeason} Record</div>
+      <div class="sched-rec-num">${wins}<span>-${losses}</span></div>
+    </div>
+    <div class="sched-rec-meta">
+      <div class="sched-rec-label">Games Played</div>
+      <div class="sched-rec-streak">${wins+losses} of ${data.length} played</div>
+    </div>
+  </div>`;
+
+  if (!data.length) {
+    html+=emptyHTML('📅','No Schedule','Add games manually or scan your schedule screen.');
+    document.getElementById('scheduleContent').innerHTML=html; return;
+  }
+
+  const played=data.filter(g=>g.result!=='upcoming');
+  const upcoming=data.filter(g=>g.result==='upcoming');
+
+  if (played.length) {
+    html+=sectionHead('RESULTS',played.length);
+    played.forEach(g=>{
+      const isWin=g.result==='win';
+      const locCls=g.location==='home'?'loc-home':g.location==='away'?'loc-away':'loc-neutral';
+      const locLbl=g.location==='home'?'HOME':g.location==='away'?'AWAY':'NEUT';
+      html+=`<div class="game-card ${g.result}">
+        <div class="game-top">
+          <div class="game-week">${g.week}</div>
+          <span class="game-loc-tag ${locCls}">${locLbl}</span>
+          <div class="game-opp">
+            <div class="game-opp-name">${g.rank?`<span class="game-opp-rank">#${g.rank}</span> `:''}${g.opponent}</div>
+            <div class="game-opp-conf">${g.conf?'Conference Game':''}</div>
+          </div>
+          <div class="game-right">
+            <div class="game-score-line ${g.result}">${g.score||'—'}</div>
+            <div class="game-result-pill grp-${g.result}">${isWin?'WIN':'LOSS'}</div>
+          </div>
+          <button class="del-btn" onclick="delEntry('schedule',${g.id})">✕</button>
+        </div>
+        ${g.notes?`<div class="game-notes-bar">${g.notes}</div>`:''}
+      </div>`;
+    });
+  }
+
+  if (upcoming.length) {
+    html+=sectionHead('UPCOMING',upcoming.length);
+    upcoming.forEach(g=>{
+      const locCls=g.location==='home'?'loc-home':g.location==='away'?'loc-away':'loc-neutral';
+      const locLbl=g.location==='home'?'HOME':g.location==='away'?'AWAY':'NEUT';
+      html+=`<div class="game-card upcoming">
+        <div class="game-top">
+          <div class="game-week">${g.week}</div>
+          <span class="game-loc-tag ${locCls}">${locLbl}</span>
+          <div class="game-opp">
+            <div class="game-opp-name">${g.rank?`<span class="game-opp-rank">#${g.rank}</span> `:''}${g.opponent}</div>
+            <div class="game-opp-conf">${g.conf?'Conference Game':''}</div>
+          </div>
+          <div class="game-right">
+            <div class="game-score-line upcoming">TBD</div>
+          </div>
+          <button class="del-btn" onclick="delEntry('schedule',${g.id})">✕</button>
+        </div>
+        ${g.notes?`<div class="game-notes-bar">${g.notes}</div>`:''}
+      </div>`;
+    });
+  }
+
+  document.getElementById('scheduleContent').innerHTML=html;
+}
+
+// ─── RECRUITS ────────────────────────────────────────────
+function starsHTML(n) {
+  n=n||0;
+  return [1,2,3,4,5].map(i=>`<span class="${i<=n?'star-filled':'star-empty'}">★</span>`).join('');
+}
+function renderRecruits() {
+  const data=sd('recruits');
+  if (!data.length){document.getElementById('recruitsContent').innerHTML=emptyHTML('🎯','No Recruits','Scan your recruiting board or tap + to add manually.');return;}
+  const groups=[
+    {label:'COMMITTED',key:'Committed',cls:'rc-committed'},
+    {label:'TARGETING',key:'Targeting',cls:'rc-targeting'},
+    {label:'LOST',key:'Lost',cls:'rc-lost'},
+  ];
+  let html='';
+  groups.forEach(grp=>{
+    const items=data.filter(r=>r.status===grp.key).sort((a,b)=>b.stars-a.stars||b.ovr-a.ovr);
+    if (!items.length) return;
+    html+=sectionHead(grp.label,items.length);
+    items.forEach(r=>{
+      const sp=r.status==='Committed'?'sp-committed':r.status==='Lost'?'sp-lost':'sp-targeting';
+      html+=`<div class="recruit-card ${grp.cls}">
+        <div class="recruit-card-inner">
+          <div class="rc-top">
+            <div>
+              <div class="rc-name">${r.name}</div>
+              <div class="rc-meta"><span class="pos-tag">${r.pos}</span><span class="star-row">${starsHTML(r.stars)}</span><span class="ovr-tag">${r.ovr||'—'}</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+              <span class="status-pill ${sp}">${r.status.toUpperCase()}</span>
+              <button class="del-btn" onclick="delEntry('recruits',${r.id})">✕</button>
+            </div>
+          </div>
+          <div class="rc-details">
+            <div class="rc-detail"><span class="rc-dl">Hometown:</span>&nbsp;<span class="rc-dv">${r.hometown||'—'}</span></div>
+            <div class="rc-detail"><span class="rc-dl">Interest:</span>&nbsp;<span class="rc-dv">${r.interest!=null?r.interest+'%':'—'}</span></div>
+            ${r.notes?`<div class="rc-detail rc-notes"><span class="rc-dl">Notes:</span>&nbsp;<span class="rc-dv">${r.notes}</span></div>`:''}
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+  document.getElementById('recruitsContent').innerHTML=html;
+}
+
+// ─── ROSTER ──────────────────────────────────────────────
+function renderRoster() {
+  const data=sd('roster');
+  if (!data.length){document.getElementById('rosterContent').innerHTML=emptyHTML('🏈','Roster Empty','Scan a depth chart or add players manually.');return;}
+  const byPos={};
+  data.forEach(p=>{(byPos[p.pos]=byPos[p.pos]||[]).push(p);});
+  let html='';
+  Object.entries(byPos).forEach(([pos,players])=>{
+    players.sort((a,b)=>(b.ovr||0)-(a.ovr||0));
+    html+=sectionHead(pos,players.length);
+    players.forEach(p=>{
+      const oc=ovrColor(p.ovr);
+      html+=`<div class="player-row">
+        <div class="p-avatar">${(p.name||'?')[0]}<div class="p-num">#${p.num||'?'}</div></div>
+        <div class="p-info"><div class="p-name">${p.name}</div><div class="p-sub">${p.yr||''}${p.notes?' · '+p.notes:''}</div></div>
+        <div class="p-attrs">
+          <div class="attr"><div class="attr-val ${oc}">${p.ovr||'—'}</div><div class="attr-lbl">OVR</div></div>
+          ${p.spd?`<div class="attr"><div class="attr-val">${p.spd}</div><div class="attr-lbl">SPD</div></div>`:''}
+          <button class="del-btn" onclick="delEntry('roster',${p.id})">✕</button>
+        </div>
+      </div>`;
+    });
+  });
+  document.getElementById('rosterContent').innerHTML=html;
+}
+
+// ─── TRANSFERS ───────────────────────────────────────────
+function renderTransfers() {
+  const data=sd('transfers');
+  if (!data.length){document.getElementById('transfersContent').innerHTML=emptyHTML('↔️','No Transfers','Track portal activity here.');return;}
+  const ins=data.filter(t=>t.direction==='in');
+  const outs=data.filter(t=>t.direction==='out');
+  let html='';
+  if (ins.length){html+=sectionHead('PORTAL IN',ins.length);ins.forEach(t=>{html+=tRow(t);});}
+  if (outs.length){html+=sectionHead('PORTAL OUT',outs.length);outs.forEach(t=>{html+=tRow(t);});}
+  document.getElementById('transfersContent').innerHTML=html;
+}
+function tRow(t) {
+  const isIn=t.direction==='in';
+  return `<div class="transfer-row">
+    <div class="transfer-dir ${isIn?'dir-in':'dir-out'}">${isIn?'⬆️':'⬇️'}</div>
+    <div class="t-info">
+      <div class="t-name">${t.name} <span class="pos-tag">${t.pos}</span></div>
+      <div class="t-sub">${isIn?`From ${t.from||'Unknown'}`:`To ${t.to||'Unknown'}`}${t.notes?' · '+t.notes:''}</div>
+    </div>
+    <div class="p-attrs">
+      <div class="attr"><div class="attr-val ${ovrColor(t.ovr)}">${t.ovr||'—'}</div><div class="attr-lbl">OVR</div></div>
+      <button class="del-btn" onclick="delEntry('transfers',${t.id})">✕</button>
+    </div>
+  </div>`;
+}
+
+// ─── STATS ───────────────────────────────────────────────
+function renderStats() {
+  const data=sd('stats');
+  if (!data.length){document.getElementById('statsContent').innerHTML=emptyHTML('📊','No Stats','Scan a stat screen or add player stats manually.');return;}
+  let html=sectionHead('PLAYER STATS',data.length);
+  data.forEach(s=>{
+    const cells=[1,2,3,4].map(i=>s['stat'+i]!=null&&s['label'+i]
+      ?`<div class="stat-cell"><div class="stat-num">${s['stat'+i]}</div><div class="stat-lbl">${s['label'+i]}</div></div>`
+      :''
+    ).join('');
+    html+=`<div class="stat-card">
+      <div class="stat-card-top"><span class="pos-tag">${s.pos}</span><span class="stat-card-name">${s.name}</span><button class="del-btn" onclick="delEntry('stats',${s.id})">✕</button></div>
+      <div class="stat-grid">${cells}</div>
+    </div>`;
+  });
+  document.getElementById('statsContent').innerHTML=html;
+}
+
+// ─── NEWSROOM ────────────────────────────────────────────
+function renderNewsroom() {
+  const data=sd('newsroom');
+  if (!data.length){document.getElementById('newsroomContent').innerHTML=emptyHTML('📰','No Stories Yet','Add news, game results, and recruiting headlines here.');return;}
+  const featured=data.find(n=>n.featured);
+  const rest=data.filter(n=>!n.featured).reverse();
+  const typeMap={game:'nit-game',recruit:'nit-recruit',transfer:'nit-transfer',program:'nit-program'};
+  const typeLbl={game:'GAME RESULT',recruit:'RECRUITING NEWS',transfer:'TRANSFER NEWS',program:'PROGRAM NEWS'};
+  let html='';
+  if (featured) {
+    html+=`<div class="news-featured">
+      <div class="news-feat-banner">⭐ FEATURED STORY</div>
+      <div class="news-feat-body">
+        <div class="news-headline">${featured.headline}</div>
+        <div class="news-byline">${featured.week||''} · ${currentSeason} Season</div>
+        <div class="news-body-text">${featured.body||''}</div>
+        ${featured.stats&&featured.stats.length?`<div class="news-stat-tags">${featured.stats.map(s=>`<span class="news-stat-tag">${s}</span>`).join('')}</div>`:''}
+        <div style="margin-top:10px;display:flex;justify-content:flex-end"><button class="del-btn" style="font-size:12px;color:var(--text3)" onclick="delEntry('newsroom',${featured.id})">Remove story</button></div>
+      </div>
+    </div>`;
+  }
+  if (rest.length) {
+    html+=sectionHead('AROUND THE PROGRAM',rest.length);
+    rest.forEach(n=>{
+      html+=`<div class="news-item">
+        <button class="news-item-del" onclick="delEntry('newsroom',${n.id})">✕</button>
+        <div class="news-item-type ${typeMap[n.type]||'nit-program'}">${typeLbl[n.type]||'NEWS'}</div>
+        <div class="news-item-title">${n.headline}</div>
+        <div class="news-item-sub">${n.week||''} · ${n.body?n.body.slice(0,60)+'…':''}</div>
+        ${n.stats&&n.stats.length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${n.stats.map(s=>`<span class="news-stat-tag">${s}</span>`).join('')}</div>`:''}
+      </div>`;
+    });
+  }
+  document.getElementById('newsroomContent').innerHTML=html;
+}
+
+// ─── SETTINGS PANEL ──────────────────────────────────────
+function renderSettingsPanel() {
+  const m=DB.meta;
+  document.getElementById('stTeam').textContent=m.teamName||'Not set';
+  document.getElementById('stCoach').textContent=m.coach||'Not set';
+  document.getElementById('stRecord').textContent=`${m.wins||0}-${m.losses||0}`;
+  document.getElementById('stRatings').textContent=m.ovr?`${m.ovr} OVR / ${m.off} OFF / ${m.def} DEF`:'Not set';
+  document.getElementById('stWeek').textContent=m.week?`Week ${m.week}`:'Preseason';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────
+function sectionHead(label,count) {
+  return `<div class="section-head"><div class="section-bar"></div><div class="section-label">${label}</div><div class="section-count">${count}</div></div>`;
+}
+function emptyHTML(icon,title,sub) {
+  return `<div class="empty-state"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
+}
+function delEntry(tab,id) {
+  if (!confirm('Remove this entry?')) return;
+  DB.seasons[currentSeason][tab]=sd(tab).filter(e=>e.id!==id);
+  saveDB(DB); render();
+}
+
+// ─── SCAN ────────────────────────────────────────────────
+async function handleScan(e) {
+  const file=e.target.files[0]; if (!file) return;
+  document.getElementById('scanModal').style.display='flex';
+  document.getElementById('scanSpinner').style.display='block';
+  document.getElementById('scanResult').style.display='none';
+  document.getElementById('scanErr').style.display='none';
+  const prev=document.getElementById('scanPreview');
+  prev.src=URL.createObjectURL(file); prev.style.display='block';
+  const b64=await toB64(file);
+  const defTab=['dash','settings'].includes(currentPage)?'recruits':currentPage;
+  document.getElementById('scanTarget').value=defTab;
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:file.type||'image/jpeg',data:b64}},
+          {type:'text',text:`Analyze this EA Sports College Football dynasty mode screenshot. Extract ALL visible data.
+
+Return ONLY valid JSON (no markdown):
+
+Recruiting: {"type":"recruits","entries":[{"name":"","pos":"","stars":4,"ovr":85,"hometown":"","interest":75,"status":"Targeting","notes":""}]}
+Roster/depth chart: {"type":"roster","entries":[{"name":"","pos":"","num":0,"yr":"SO","ovr":82,"spd":85,"notes":""}]}
+Transfer portal: {"type":"transfers","entries":[{"name":"","pos":"","direction":"in","from":"","to":"","ovr":80,"notes":""}]}
+Player stats: {"type":"stats","entries":[{"name":"","pos":"","stat1":0,"label1":"PASS YDS","stat2":0,"label2":"TD","stat3":0,"label3":"INT","stat4":0,"label4":"COMP%"}]}
+Schedule/scores: {"type":"schedule","entries":[{"week":1,"opponent":"","rank":"","location":"home","result":"win","score":"28-14","conf":false,"notes":""}]}
+News/scores: {"type":"newsroom","entries":[{"type":"game","headline":"","body":"","stats":[],"week":"Week 1","featured":false}]}
+
+Extract every player/game visible. Return ONLY the JSON.`}
+        ]}]
+      })
+    });
+    const data=await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const txt=data.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
+    scanParsed=JSON.parse(txt);
+    document.getElementById('scanSpinner').style.display='none';
+    document.getElementById('scanJson').textContent=JSON.stringify(scanParsed,null,2);
+    if (scanParsed.type) document.getElementById('scanTarget').value=scanParsed.type;
+    document.getElementById('scanResult').style.display='block';
+  } catch(err) {
+    document.getElementById('scanSpinner').style.display='none';
+    document.getElementById('scanErrText').textContent='AI could not parse: '+err.message;
+    document.getElementById('scanErr').style.display='block';
+  }
+  e.target.value='';
+}
+function saveScan() {
+  if (!scanParsed?.entries) return;
+  const tab=document.getElementById('scanTarget').value;
+  const existing=sd(tab);
+  let id=existing.length?Math.max(...existing.map(e=>e.id||0))+1:1;
+  scanParsed.entries.forEach(entry=>{entry.id=id++;});
+  DB.seasons[currentSeason][tab]=[...existing,...scanParsed.entries];
+  saveDB(DB); closeScan();
+  const tabIdx={recruits:2,roster:3,transfers:4,stats:5,schedule:1,newsroom:6};
+  if (tabIdx[tab]!==undefined) document.querySelectorAll('.navtab')[tabIdx[tab]].click();
+  else render();
+}
+function closeScan(){document.getElementById('scanModal').style.display='none';scanParsed=null;}
+
+// ─── ADD MANUALLY ────────────────────────────────────────
+function openAdd() {
+  const tab=['dash','settings'].includes(currentPage)?'recruits':currentPage;
+  document.getElementById('addTitle').textContent='ADD '+{recruits:'RECRUIT',roster:'PLAYER',transfers:'TRANSFER',stats:'PLAYER STATS',schedule:'GAME',newsroom:'STORY'}[tab];
+  document.getElementById('addForm').innerHTML=buildForm(tab);
+  document.getElementById('addModal').style.display='flex';
+}
+function closeAdd(){document.getElementById('addModal').style.display='none';}
+
+const POS_OPTIONS=`<option>QB</option><option>RB</option><option>WR</option><option>TE</option><option>OT</option><option>OG</option><option>C</option><option>DE</option><option>DT</option><option>LB</option><option>CB</option><option>S</option><option>K</option><option>P</option>`;
+
+function buildForm(tab) {
+  const pos=`<select class="form-sel" id="f_pos">${POS_OPTIONS}</select>`;
+  const btns=`<div class="btn-row"><button class="btn btn-gold" onclick="submitForm('${tab}')">SAVE</button><button class="btn btn-ghost" onclick="closeAdd()">CANCEL</button></div>`;
+
+  if (tab==='recruits') return `
+    <div class="form-row"><label class="form-lbl">Full Name</label><input class="form-input" id="f_name" placeholder="First Last"></div>
+    <div class="form-grid-3">
+      <div class="form-row"><label class="form-lbl">Position</label>${pos}</div>
+      <div class="form-row"><label class="form-lbl">Stars</label><select class="form-sel" id="f_stars"><option>5</option><option>4</option><option selected>3</option><option>2</option></select></div>
+      <div class="form-row"><label class="form-lbl">Overall</label><input class="form-input" id="f_ovr" type="number" placeholder="80"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Hometown</label><input class="form-input" id="f_hometown" placeholder="City, ST"></div>
+      <div class="form-row"><label class="form-lbl">Interest %</label><input class="form-input" id="f_interest" type="number" placeholder="70"></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Status</label><select class="form-sel" id="f_status"><option>Targeting</option><option>Committed</option><option>Lost</option></select></div>
+    <div class="form-row"><label class="form-lbl">Notes</label><input class="form-input" id="f_notes" placeholder="Optional"></div>${btns}`;
+
+  if (tab==='roster') return `
+    <div class="form-row"><label class="form-lbl">Full Name</label><input class="form-input" id="f_name" placeholder="First Last"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Position</label>${pos}</div>
+      <div class="form-row"><label class="form-lbl">Year</label><select class="form-sel" id="f_yr"><option>FR</option><option>SO</option><option>JR</option><option>SR</option></select></div>
+    </div>
+    <div class="form-grid-3">
+      <div class="form-row"><label class="form-lbl">Jersey #</label><input class="form-input" id="f_num" type="number" placeholder="1"></div>
+      <div class="form-row"><label class="form-lbl">Overall</label><input class="form-input" id="f_ovr" type="number" placeholder="80"></div>
+      <div class="form-row"><label class="form-lbl">Speed</label><input class="form-input" id="f_spd" type="number" placeholder="85"></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Notes</label><input class="form-input" id="f_notes" placeholder="Starter, depth, etc."></div>${btns}`;
+
+  if (tab==='transfers') return `
+    <div class="form-row"><label class="form-lbl">Full Name</label><input class="form-input" id="f_name" placeholder="First Last"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Position</label>${pos}</div>
+      <div class="form-row"><label class="form-lbl">Overall</label><input class="form-input" id="f_ovr" type="number" placeholder="80"></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Direction</label><select class="form-sel" id="f_dir"><option value="in">Portal IN (incoming)</option><option value="out">Portal OUT (departing)</option></select></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">From School</label><input class="form-input" id="f_from" placeholder="Previous school"></div>
+      <div class="form-row"><label class="form-lbl">To School</label><input class="form-input" id="f_to" placeholder="Destination"></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Notes</label><input class="form-input" id="f_notes" placeholder="Grad transfer, etc."></div>${btns}`;
+
+  if (tab==='stats') return `
+    <div class="form-row"><label class="form-lbl">Player Name</label><input class="form-input" id="f_name" placeholder="First Last"></div>
+    <div class="form-row"><label class="form-lbl">Position</label>${pos}</div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Stat 1 Value</label><input class="form-input" id="f_s1" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-lbl">Stat 1 Label</label><input class="form-input" id="f_l1" placeholder="PASS YDS"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Stat 2 Value</label><input class="form-input" id="f_s2" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-lbl">Stat 2 Label</label><input class="form-input" id="f_l2" placeholder="TD"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Stat 3 Value</label><input class="form-input" id="f_s3" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-lbl">Stat 3 Label</label><input class="form-input" id="f_l3" placeholder="INT"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Stat 4 Value</label><input class="form-input" id="f_s4" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-lbl">Stat 4 Label</label><input class="form-input" id="f_l4" placeholder="COMP%"></div>
+    </div>${btns}`;
+
+  if (tab==='schedule') return `
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Week #</label><input class="form-input" id="f_week" type="number" placeholder="1"></div>
+      <div class="form-row"><label class="form-lbl">Location</label><select class="form-sel" id="f_loc"><option value="home">Home</option><option value="away">Away</option><option value="neutral">Neutral</option></select></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Opponent</label><input class="form-input" id="f_opp" placeholder="Team Name"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Opp. Rank (if ranked)</label><input class="form-input" id="f_rank" placeholder="e.g. 12"></div>
+      <div class="form-row"><label class="form-lbl">Conference Game?</label><select class="form-sel" id="f_conf"><option value="false">No</option><option value="true">Yes</option></select></div>
+    </div>
+    <div class="form-row"><label class="form-lbl">Result</label><select class="form-sel" id="f_result"><option value="upcoming">Upcoming</option><option value="win">Win</option><option value="loss">Loss</option></select></div>
+    <div class="form-row"><label class="form-lbl">Final Score (e.g. 35-21)</label><input class="form-input" id="f_score" placeholder="Leave blank if upcoming"></div>
+    <div class="form-row"><label class="form-lbl">Notes</label><input class="form-input" id="f_notes" placeholder="Bowl game, rivalry, etc."></div>${btns}`;
+
+  if (tab==='newsroom') return `
+    <div class="form-row"><label class="form-lbl">Story Type</label><select class="form-sel" id="f_ntype"><option value="game">Game Result</option><option value="recruit">Recruiting News</option><option value="transfer">Transfer News</option><option value="program">Program News</option></select></div>
+    <div class="form-row"><label class="form-lbl">Headline</label><input class="form-input" id="f_headline" placeholder="e.g. Trojans Dominate in 42-7 Win"></div>
+    <div class="form-row"><label class="form-lbl">Week / Context</label><input class="form-input" id="f_week" placeholder="Week 4, Recruiting, etc."></div>
+    <div class="form-row"><label class="form-lbl">Story Body</label><input class="form-input" id="f_body" placeholder="Brief summary..."></div>
+    <div class="form-row"><label class="form-lbl">Stat Callout 1</label><input class="form-input" id="f_s1" placeholder="e.g. T.Reeves: 3 TD, 310 yds"></div>
+    <div class="form-row"><label class="form-lbl">Stat Callout 2</label><input class="form-input" id="f_s2" placeholder="Optional"></div>
+    <div class="form-row"><label class="form-lbl">Featured Story?</label><select class="form-sel" id="f_featured"><option value="false">No</option><option value="true">Yes — Pin to top</option></select></div>${btns}`;
+}
+
+function g(id){const el=document.getElementById(id);return el?el.value:'';}
+
+function submitForm(tab) {
+  const id=nextId(tab);
+  let entry={id};
+  if (tab!=='newsroom'&&!g('f_name')&&!g('f_opp')&&!g('f_headline')) return;
+
+  if (tab==='recruits') entry={...entry,name:g('f_name'),pos:g('f_pos'),stars:+g('f_stars'),ovr:+g('f_ovr')||0,interest:+g('f_interest')||0,hometown:g('f_hometown'),status:g('f_status'),notes:g('f_notes')};
+  else if (tab==='roster') entry={...entry,name:g('f_name'),pos:g('f_pos'),yr:g('f_yr'),num:+g('f_num')||0,ovr:+g('f_ovr')||0,spd:+g('f_spd')||0,notes:g('f_notes')};
+  else if (tab==='transfers') entry={...entry,name:g('f_name'),pos:g('f_pos'),ovr:+g('f_ovr')||0,direction:g('f_dir'),from:g('f_from'),to:g('f_to'),notes:g('f_notes')};
+  else if (tab==='stats') entry={...entry,name:g('f_name'),pos:g('f_pos'),stat1:+g('f_s1')||0,label1:g('f_l1')||'',stat2:+g('f_s2')||0,label2:g('f_l2')||'',stat3:+g('f_s3')||0,label3:g('f_l3')||'',stat4:+g('f_s4')||0,label4:g('f_l4')||''};
+  else if (tab==='schedule') entry={...entry,week:+g('f_week')||0,opponent:g('f_opp'),rank:g('f_rank'),location:g('f_loc'),result:g('f_result'),score:g('f_score'),conf:g('f_conf')==='true',notes:g('f_notes')};
+  else if (tab==='newsroom') {
+    const feat=g('f_featured')==='true';
+    if (feat) sd('newsroom').forEach(n=>{n.featured=false;});
+    const stats=[g('f_s1'),g('f_s2')].filter(Boolean);
+    entry={...entry,type:g('f_ntype'),headline:g('f_headline'),week:g('f_week'),body:g('f_body'),stats,featured:feat};
+  }
+
+  sd(tab).push(entry);
+  saveDB(DB); closeAdd();
+  const tabIdx={recruits:2,roster:3,transfers:4,stats:5,schedule:1,newsroom:6};
+  if (currentPage!==tab&&tabIdx[tab]!==undefined) document.querySelectorAll('.navtab')[tabIdx[tab]].click();
+  else render();
+}
+
+// ─── SETTINGS EDITORS ────────────────────────────────────
+function openEditTeam() {
+  document.getElementById('addTitle').textContent='TEAM SETUP';
+  document.getElementById('addForm').innerHTML=`
+    <div class="form-row"><label class="form-lbl">Team Name</label><input class="form-input" id="f_tname" value="${DB.meta.teamName||''}" placeholder="e.g. USC Trojans"></div>
+    <div class="form-row"><label class="form-lbl">Head Coach</label><input class="form-input" id="f_coach" value="${DB.meta.coach||''}" placeholder="Coach Name"></div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="saveTeam()">SAVE</button><button class="btn btn-ghost" onclick="closeAdd()">CANCEL</button></div>`;
+  document.getElementById('addModal').style.display='flex';
+}
+function saveTeam(){DB.meta.teamName=g('f_tname');DB.meta.coach=g('f_coach');saveDB(DB);closeAdd();render();}
+
+function openEditRecord() {
+  document.getElementById('addTitle').textContent='SEASON RECORD';
+  document.getElementById('addForm').innerHTML=`
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-lbl">Wins</label><input class="form-input" id="f_wins" type="number" value="${DB.meta.wins||0}"></div>
+      <div class="form-row"><label class="form-lbl">Losses</label><input class="form-input" id="f_losses" type="number" value="${DB.meta.losses||0}"></div>
+    </div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="saveRecord()">SAVE</button><button class="btn btn-ghost" onclick="closeAdd()">CANCEL</button></div>`;
+  document.getElementById('addModal').style.display='flex';
+}
+function saveRecord(){DB.meta.wins=+g('f_wins')||0;DB.meta.losses=+g('f_losses')||0;saveDB(DB);closeAdd();render();}
+
+function openEditRatings() {
+  document.getElementById('addTitle').textContent='TEAM RATINGS';
+  document.getElementById('addForm').innerHTML=`
+    <div class="form-grid-3">
+      <div class="form-row"><label class="form-lbl">Overall</label><input class="form-input" id="f_ovr" type="number" value="${DB.meta.ovr||''}"></div>
+      <div class="form-row"><label class="form-lbl">Offense</label><input class="form-input" id="f_off" type="number" value="${DB.meta.off||''}"></div>
+      <div class="form-row"><label class="form-lbl">Defense</label><input class="form-input" id="f_def" type="number" value="${DB.meta.def||''}"></div>
+    </div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="saveRatings()">SAVE</button><button class="btn btn-ghost" onclick="closeAdd()">CANCEL</button></div>`;
+  document.getElementById('addModal').style.display='flex';
+}
+function saveRatings(){DB.meta.ovr=+g('f_ovr')||0;DB.meta.off=+g('f_off')||0;DB.meta.def=+g('f_def')||0;saveDB(DB);closeAdd();render();}
+
+function openEditWeek() {
+  document.getElementById('addTitle').textContent='CURRENT WEEK';
+  document.getElementById('addForm').innerHTML=`
+    <div class="form-row"><label class="form-lbl">Week Number (0 = Preseason)</label><input class="form-input" id="f_week" type="number" value="${DB.meta.week||0}" min="0" max="20"></div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="saveWeek()">SAVE</button><button class="btn btn-ghost" onclick="closeAdd()">CANCEL</button></div>`;
+  document.getElementById('addModal').style.display='flex';
+}
+function saveWeek(){DB.meta.week=+g('f_week')||0;saveDB(DB);closeAdd();render();}
+
+function clearSeason(){if(!confirm(`Clear all ${currentSeason} data?`))return;DB.seasons[currentSeason]={recruits:[],roster:[],transfers:[],stats:[],schedule:[],newsroom:[]};saveDB(DB);render();}
+function resetAll(){if(!confirm('Reset ALL data? Cannot be undone.'))return;localStorage.removeItem(STORE);DB=initDB();render();}
+
+// ─── UTILS ───────────────────────────────────────────────
+function toB64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('Read failed'));r.readAsDataURL(file);});}
+
+['scanModal','addModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this){if(id==='scanModal')closeScan();else closeAdd();}
+  });
+});
+
+render();
+</script>
+</body>
+</html>
